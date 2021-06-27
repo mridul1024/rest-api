@@ -4,10 +4,22 @@
  *
  * ? So, I want to store the user data in the database. How should I do that?
  * ? I will create a route -> controller -> service -> repository pathway
- * Todo: Create AuthController
- * Todo: Write registration and login route -> Redirect it to AuthController
- * Todo: Send a result back to the requesting user
+ *
  */
 
-// Todo: Create registration route
-// Todo: Create Login route
+const express = require("express");
+const authRouter = express.Router();
+
+//* Auth Controller
+const AuthController = require("../controller/AuthController");
+const authController = new AuthController();
+
+//* Registration route
+authRouter.post("/registration", (req, res) => {
+  res.json(`${authController.registrationController(req, res)}`);
+});
+
+//* Login route
+authRouter.post("/login", (req, res) => {
+  res.json(`${authController.loginController(req, res)}`);
+});

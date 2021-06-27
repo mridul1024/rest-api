@@ -1,3 +1,11 @@
+/**
+ * * Server file
+ *
+ * Todo: Add authRoute
+ * Todo: Add json body parser
+ *
+ */
+
 const express = require("express");
 const app = express();
 
