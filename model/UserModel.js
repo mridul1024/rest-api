@@ -2,10 +2,10 @@
  * * This is User model
  */
 
-const { Mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
 //* User schema
-const user = new Mongoose.Schema(
+const users = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -48,19 +48,20 @@ const user = new Mongoose.Schema(
   }
 );
 
-user.pre("save", (next) => {
-  this.log("Saving user to database....");
+users.pre("save", (next) => {
+  console.log("Saving user to database....");
   next();
 });
 
-user.post("save", () => {
-  this.log("User is saved to database");
+users.post("save", () => {
+  console.log("User is saved to database");
 });
 
+//! Removed this function because it was causing some problem (Look into how to use it properly)
 //? What is the use of "method()"? -> It lets you create your own function and use it with the mongoose schema
-user.method("log", (message) => {
-  Console.log("Logger: " + message);
-});
+// users.method("log", (message) => {
+//   Console.log("Logger: " + message);
+// });
 
 //* exported user model
-module.exports = mongoose.model("User", user);
+module.exports = mongoose.model("users", users);

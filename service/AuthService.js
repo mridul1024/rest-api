@@ -4,20 +4,47 @@
  *
  * ? How to access the database? Simple, use a repository
  *
- * Todo: Write registration and login functions for this service
- * Todo: Create an AuthRepository object and use it to get required details from database
+ * Todo: Write login function for this service module
+ * Todo: Generate JWT token during login
+ *
+ * ! Notes
+ * * Required params for user model
+ * @param username -> //! required
+ * @param password -> //! required
+ * @param apiKey -> //! required
+ * @param fullName
+ * @parma email -> //! required
+ *
  */
 
 const AuthRepository = require("../repository/AuthRepository");
 const authRepository = new AuthRepository();
+const User = require("../model/UserModel");
+const generateApiKey = require("generate-api-key");
 
 class AuthenticationService {
   //* Registration service
-  registrationService(req, res) {
-    //Create a variable for storing repository result
-    result = authRepository.registration(req, res);
-    //!! START HERE
-    return; //todo: return result after fetching from repository
+  async registrationService(req, res) {
+    let result;
+    let statusCode = "201";
+
+    //* User object
+    let newUser = new User({
+      username: req.body.username,
+      password: req.body.password,
+      apiKey: generateApiKey(), //generate api key and enter here,
+      fullName: req.body.fullName,
+      email: req.body.email,
+    });
+
+    try {
+      result = await authRepository.registration(newUser);
+      result == null ? (statusCode = "500") : (statusCode = "201");
+    } catch (error) {
+      console.log(`AuthService.js error: ${result}`);
+    }
+
+    return res.status(statusCode).json(result);
   }
 
   //* Login service
@@ -26,4 +53,4 @@ class AuthenticationService {
   }
 }
 
-module.export = AuthenticationService;
+module.exports = AuthenticationService;

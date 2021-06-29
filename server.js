@@ -1,21 +1,42 @@
 /**
  * * Server file
  *
- * Todo: Add authRoute
- * Todo: Add json body parser
- *
  */
 
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
+
+//db connection
+mongoose.connect(
+  "mongodb+srv://restuser:restuser@cluster0.01o6g.mongodb.net/blog_db?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
+
+//db event handlers
+const db = mongoose.connection;
+db.once("open", () => {
+  console.log("Connected to database.");
+});
+db.on("error", (err) => {
+  console.log(`Error: ${err}`);
+});
 
 //Routes
 const baseRoute = require("./routes/BaseRoute");
+const authRoute = require("./routes/auth");
 
 //Port number
 const port = process.env.PORT || 3000;
 
+//Adding json body parser
+app.use(express.json());
+
 app.use("/", baseRoute);
+app.use("/auth", authRoute);
 
 app.listen(port, (req, res) => {
   console.log(`Server started on port : ${port}`);

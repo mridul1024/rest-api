@@ -4,6 +4,8 @@
  *
  * ?For writing business logic I will use a service module
  *
+ * Todo: Write login controller function
+ *
  */
 
 //* Auth Service
@@ -12,8 +14,14 @@ const authService = new AuthService();
 
 class AuthenticationController {
   //* Registration controller
-  registrationController(req, res) {
-    return authService.registationService(req, res);
+  async registrationController(req, res) {
+    let result;
+    try {
+      result = await authService.registrationService(req, res);
+    } catch (error) {
+      console.log(`AuthController.js error: ${error}`);
+    }
+    return result;
   }
 
   //* Login controller
@@ -22,4 +30,4 @@ class AuthenticationController {
   }
 }
 
-modules.export = AuthController;
+module.exports = AuthenticationController;
