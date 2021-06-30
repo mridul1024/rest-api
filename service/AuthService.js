@@ -11,9 +11,9 @@
  * * Required params for user model
  * @param username -> //! required
  * @param password -> //! required
+ * @param email -> //! required
  * @param apiKey -> //! required
  * @param fullName
- * @parma email -> //! required
  *
  */
 

@@ -9,6 +9,7 @@
  */
 
 //* Auth Service
+const { restart } = require("nodemon");
 const AuthService = require("../service/AuthService");
 const authService = new AuthService();
 
@@ -25,8 +26,14 @@ class AuthenticationController {
   }
 
   //* Login controller
-  loginController(req, res) {
-    return authService.loginService(req, res);
+  async loginController(req, res) {
+    let result;
+    try {
+      result = await authService.loginService(req, res);
+    } catch (error) {
+      console.log(`AuthController.js error: ${error}`);
+    }
+    return result;
   }
 }
 

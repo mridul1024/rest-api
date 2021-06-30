@@ -28,8 +28,15 @@ authRouter.post("/registration", async (req, res) => {
 });
 
 //* Login route
-authRouter.post("/login", (req, res) => {
-  res.json(`${authController.loginController(req, res)}`);
+authRouter.post("/login", async (req, res) => {
+  let result;
+  try {
+    result = await authController.loginController(req, res);
+  } catch (error) {
+    console.log(`auth.js error: ${error}`);
+  }
+
+  return result;
 });
 
 module.exports = authRouter;
