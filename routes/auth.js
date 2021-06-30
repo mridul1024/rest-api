@@ -5,7 +5,6 @@
  * ? So, I want to store the user data in the database. How should I do that?
  * ? I will create a route -> controller -> service -> repository pathway
  *
- * Todo: Write login route function //!!!!!! START FROM HERE !!!!!!
  *
  */
 
@@ -35,7 +34,6 @@ authRouter.post("/login", async (req, res) => {
   } catch (error) {
     console.log(`auth.js error: ${error}`);
   }
-
   return result;
 });
 

@@ -8,6 +8,7 @@
  *
  */
 
+const UserModel = require("../model/UserModel");
 class AuthenticationRepository {
   async registration(newUser) {
     let result;
@@ -22,8 +23,18 @@ class AuthenticationRepository {
     return result;
   }
 
-  login(req, res) {
-    return; // Todo: send validation db query result
+  async login(username) {
+    let result;
+
+    try {
+      result = await UserModel.findOne({
+        username: username,
+      });
+    } catch (error) {
+      console.log(`AuthRepository.js error: ${error}`);
+      result = error;
+    }
+    return result; // Todo: send validation db query result
   }
 }
 

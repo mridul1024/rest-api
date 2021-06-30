@@ -4,15 +4,16 @@
  *
  * ? How to access the database? Simple, use a repository
  *
- * Todo: Write login function for this service module
- * Todo: Generate JWT token during login
+ * Todo: Generate JWT token during login //!!------ START FROM HERE ------!!//
+ * Todo: Pring JWT token after successful login
  *
  * ! Notes
  * * Required params for user model
  * @param username -> //! required
  * @param password -> //! required
  * @param email -> //! required
- * @param apiKey -> //! required
+ * @param viewApiKey -> //! required
+ * @param masterApiKey -> //! required
  * @param fullName
  *
  */
@@ -46,7 +47,8 @@ class AuthenticationService {
         newUser = new User({
           username: req.body.username,
           password: hash,
-          apiKey: generateApiKey(), //* generate api key and enter here,
+          viewApiKey: generateApiKey(), //* generate api key and enter here,
+          masterApiKey: generateApiKey(),
           fullName: req.body.fullName,
           email: req.body.email,
         });
@@ -66,8 +68,34 @@ class AuthenticationService {
   }
 
   //* Login service
-  loginService(req, res) {
-    return; //todo: return result after fecthing from repository
+  async loginService(req, res) {
+    //Check record with username
+    let result;
+    try {
+      result = await authRepository.login(req.body.username);
+      if (result !== null) {
+        //* Compare with hashed password
+        bcrypt.compare(
+          req.body.password,
+          result.password,
+          (err, comparisonResult) => {
+            if (err) {
+              console.log(`AuthService.js error: ${err}`);
+              return res.status(400).json({ error });
+            } else {
+              comparisonResult
+                ? res.status(201).json({ message: "Successful login" })
+                : res.status(201).json({ message: "Wrong credentials" });
+            }
+          }
+        );
+      } else {
+        res.status(400).json({ message: "Wrong credentials" });
+      }
+    } catch (error) {
+      console.log(`AuthService.js error: ${error}`);
+      res.status(500).json({ message: "Server error" });
+    }
   }
 }
 

@@ -24,7 +24,14 @@ const users = new mongoose.Schema(
       type: String,
       required: true,
     },
-    apiKey: {
+    viewApiKey: {
+      type: String,
+      required: true,
+      index: {
+        unique: true,
+      },
+    },
+    masterApiKey: {
       type: String,
       required: true,
       index: {
