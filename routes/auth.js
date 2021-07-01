@@ -5,7 +5,6 @@
  * ? So, I want to store the user data in the database. How should I do that?
  * ? I will create a route -> controller -> service -> repository pathway
  *
- *
  */
 
 const express = require("express");

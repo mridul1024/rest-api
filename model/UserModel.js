@@ -1,5 +1,6 @@
 /**
  * * This is User model
+ *
  */
 
 const mongoose = require("mongoose");

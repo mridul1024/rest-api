@@ -4,8 +4,6 @@
  *
  * ?For writing business logic I will use a service module
  *
- * Todo: Write login controller function
- *
  */
 
 //* Auth Service

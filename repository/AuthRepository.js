@@ -2,14 +2,11 @@
  * * This repository module interacts with mongo db for registration and login
  * ! Don't write business logic here
  *
- * Todo: Validate username and passsword and send the result back to service for processing
- *
- *
- *
  */
 
 const UserModel = require("../model/UserModel");
 class AuthenticationRepository {
+  //* Registration
   async registration(newUser) {
     let result;
 
@@ -23,6 +20,7 @@ class AuthenticationRepository {
     return result;
   }
 
+  //* Login
   async login(username) {
     let result;
 
@@ -34,7 +32,7 @@ class AuthenticationRepository {
       console.log(`AuthRepository.js error: ${error}`);
       result = error;
     }
-    return result; // Todo: send validation db query result
+    return result;
   }
 }
 

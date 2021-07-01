@@ -4,9 +4,6 @@
  *
  * ? How to access the database? Simple, use a repository
  *
- * Todo: Generate JWT token during login //!!------ START FROM HERE ------!!//
- * Todo: Pring JWT token after successful login
- *
  * ! Notes
  * * Required params for user model
  * @param username -> //! required
@@ -23,10 +20,14 @@ const authRepository = new AuthRepository();
 const User = require("../model/UserModel");
 const generateApiKey = require("generate-api-key");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { restart } = require("nodemon");
 
 //* Bcrypt hash rounds
 const saltRounds = 10;
+
+//* Secret key for jwt
+const secretKey = process.env.SECRET_KEY || generateApiKey();
 
 class AuthenticationService {
   //* Registration service
@@ -83,8 +84,13 @@ class AuthenticationService {
               console.log(`AuthService.js error: ${err}`);
               return res.status(400).json({ error });
             } else {
+              var token = jwt.sign({ payload: result }, secretKey, {
+                expiresIn: "2h",
+              });
               comparisonResult
-                ? res.status(201).json({ message: "Successful login" })
+                ? res
+                    .status(201)
+                    .json({ message: "Successful login", token: token })
                 : res.status(201).json({ message: "Wrong credentials" });
             }
           }

@@ -9,7 +9,8 @@ const mongoose = require("mongoose");
 
 //db connection
 mongoose.connect(
-  "mongodb+srv://restuser:restuser@cluster0.01o6g.mongodb.net/blog_db?retryWrites=true&w=majority",
+  process.env.DATABASE_URL ||
+    "mongodb+srv://restuser:restuser@cluster0.01o6g.mongodb.net/blog_db?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
