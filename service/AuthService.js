@@ -27,7 +27,8 @@ const { restart } = require("nodemon");
 const saltRounds = 10;
 
 //* Secret key for jwt
-const secretKey = process.env.SECRET_KEY || generateApiKey();
+const secretKey =
+  process.env.SECRET_KEY || "4005aa34-0e52-46b1-9cf5-5ff64466471d";
 
 class AuthenticationService {
   //* Registration service

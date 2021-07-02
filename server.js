@@ -29,6 +29,7 @@ db.on("error", (err) => {
 //Routes
 const baseRoute = require("./routes/BaseRoute");
 const authRoute = require("./routes/auth");
+const articleRoute = require("./routes/articles");
 
 //Port number
 const port = process.env.PORT || 3000;
@@ -38,6 +39,7 @@ app.use(express.json());
 
 app.use("/", baseRoute);
 app.use("/auth", authRoute);
+app.use("/articles", articleRoute);
 
 app.listen(port, (req, res) => {
   console.log(`Server started on port : ${port}`);
