@@ -49,14 +49,16 @@ class ArticleService {
 
     //Extract payload from token
     console.log(`ArticleService.js token: ${req.body.token}`);
-    let payload = jwt.decode(req.body.token);
+    let tokenPayload = jwt.decode(req.body.token);
     console.log(
-      `ArticleService.js fullname: ${JSON.stringify(payload.fullName)}`
+      `ArticleService.js fullname: ${JSON.stringify(
+        tokenPayload.payload.fullName
+      )}`
     );
 
     article = new Article({
       title: req.body.title,
-      author: payload.fullName,
+      author: tokenPayload.payload.fullName,
       content: "Test content",
     });
 
