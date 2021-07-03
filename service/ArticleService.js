@@ -1,11 +1,7 @@
 /**
  * * This is a service class for handling operations related to articles
- *
+ * * Write business logic here and fetch data through the repository
  * !---- Create a middle ware and check auth token before performing the following operations
- * Todo: Create updateArticle() function
- * Todo: Create deleteArticle() function
- *
- * ? Write business logic here and fetch data through the repository
  *
  */
 
@@ -20,7 +16,7 @@ const secretKey =
 
 class ArticleService {
   //* Get all articles service
-  async getAllArticles(req, res) {
+  async getAllArticlesService(req, res) {
     let result;
     let statusCode = "200";
     try {
@@ -41,25 +37,18 @@ class ArticleService {
     }
   }
 
-  //! Add all the remaining functions
   //* Post article service
   async postArticleService(req, res) {
     let result;
     let article;
 
-    //Extract payload from token
-    console.log(`ArticleService.js token: ${req.body.token}`);
+    //* Extract payload from token
     let tokenPayload = jwt.decode(req.body.token);
-    console.log(
-      `ArticleService.js fullname: ${JSON.stringify(
-        tokenPayload.payload.fullName
-      )}`
-    );
 
     article = new Article({
       title: req.body.title,
       author: tokenPayload.payload.fullName,
-      content: "Test content",
+      content: req.body.content,
     });
 
     try {
@@ -73,19 +62,54 @@ class ArticleService {
       if (error) {
         console.log(`ArticleService.js error: ${error}`);
         result = error;
-        res.status(500).json({ result: result });
+        res.status(500).json({ error: result });
       }
     }
   }
 
   //* Update article service
-  updateArticleService(req, res) {
-    res.status(200).json({ result: "update service" }); // Todo: Write the whole update function later (and convert to async)
+  async updateArticleService(req, res) {
+    //* Update the article - (:articleId) param
+    let id = req.params.articleId;
+    let content = req.body.content;
+    let result;
+    try {
+      result = await articleRepository.updateArticle(id, content);
+      if (result !== null) {
+        res.status(200).json({ result: result });
+      } else {
+        res.status(401).json({ error: "Article update failed" });
+      }
+    } catch (error) {
+      if (error) {
+        console.log(`ArticleService.js error: ${error}`);
+        result = error;
+        res.status(500).json({ error: result });
+      }
+    }
   }
 
   //* delete article service
-  deleteArticleService(req, res) {
-    res.status(200).json({ result: "delete service" }); // Todo: Write the whole delete function later (and convert to async)
+  async deleteArticleService(req, res) {
+    let result;
+    let id = req.params.articleId;
+    try {
+      result = await articleRepository.deleteArticle(id);
+      if (result !== null) {
+        console.log(`result : ${result}`);
+        res.status(200).json({ result: `${result}` });
+      } else {
+        res
+          .status(401)
+          .json({ error: "The requested article is not available" });
+      }
+    } catch (error) {
+      if (error) {
+        console.log(`ArticleService.js error: ${error}`);
+        result = error;
+        res.status(500).json({ error: "Article deletion failed" });
+      }
+    }
   }
 }
 

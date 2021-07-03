@@ -2,9 +2,6 @@
  * * This is controller for managing articles
  * ! Don't write business logic here, create a new service controller and use it instead for processing
  *
- * Todo: Create ArticleService
- * Todo: Declare ArticleService variable and call its respective function in order to fetch data from repo
- *
  */
 
 const ArticleService = require("../service/ArticleService");
