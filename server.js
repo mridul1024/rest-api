@@ -34,7 +34,7 @@ const authRoute = require("./routes/auth");
 const articleRoute = require("./routes/articles");
 
 //Port number
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 9090;
 
 //Adding json body parser
 app.use(express.json());

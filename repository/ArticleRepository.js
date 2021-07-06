@@ -12,7 +12,40 @@ class ArticleRepository {
     try {
       result = await mongoose.model("articles").find();
     } catch (error) {
+      console.log(`ArticleRepository.js error: ${error}`);
       result = error;
+    }
+    return result;
+  }
+
+  //* Get article by id
+  async getArticle(id) {
+    let result;
+    try {
+      result = await mongoose.model("articles").findById(id);
+    } catch (error) {
+      if (error) {
+        console.log(`ArticleRepository.js error: ${error}`);
+        result = error;
+      }
+    }
+    return result;
+  }
+
+  //* Get recent articles
+  async getRecentArticles() {
+    let result;
+    try {
+      result = await mongoose
+        .model("articles")
+        .find()
+        .sort({ createdAt: -1 })
+        .limit(3);
+    } catch (error) {
+      if (error) {
+        console.log(`ArticleRepository.js error: ${error}`);
+        result = error;
+      }
     }
     return result;
   }

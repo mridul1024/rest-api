@@ -22,6 +22,34 @@ class ArticleController {
     return result;
   }
 
+  //* Get single article
+  async getArticleController(req, res) {
+    let result;
+    try {
+      result = await articleService.getArticleService(req, res);
+    } catch (error) {
+      if (error) {
+        console.log(`ArticleController.js error: ${error}`);
+        result = error;
+      }
+    }
+    return result;
+  }
+
+  //* Get recent articles
+  async getRecentArticlesController(req, res) {
+    let result;
+    try {
+      result = await articleService.getRecentArticlesService(req, res);
+    } catch (error) {
+      if (error) {
+        console.log(`ArticlesController.js error: ${error}`);
+        result = error;
+      }
+    }
+    return result;
+  }
+
   //* Post article controller
   async postArticleController(req, res) {
     let result;

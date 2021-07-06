@@ -13,6 +13,7 @@ const articleRouter = express.Router();
 const ArticleController = require("../controller/ArticleController");
 const articleController = new ArticleController();
 const jwt = require("jsonwebtoken");
+const { restart } = require("nodemon");
 
 //* Secret key for auth token verfication
 const secretKey =
@@ -24,6 +25,34 @@ articleRouter.get("/all-articles", async (req, res) => {
   let result;
   try {
     result = await articleController.getAllArticlesController(req, res);
+  } catch (error) {
+    if (error) {
+      console.log(`articles.js error: ${error}`);
+      result = error;
+    }
+  }
+  return result;
+});
+
+//* Get single article
+articleRouter.get("/:articleId", async (req, res) => {
+  let result;
+  try {
+    result = await articleController.getArticleController(req, res);
+  } catch (error) {
+    if (error) {
+      console.log(`articles.js error: ${error}`);
+      result = error;
+    }
+  }
+  return result;
+});
+
+//* Get recent articles
+articleRouter.get("/get-articles/recent", async (req, res) => {
+  let result;
+  try {
+    result = await articleController.getRecentArticlesController(req, res);
   } catch (error) {
     if (error) {
       console.log(`articles.js error: ${error}`);

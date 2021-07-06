@@ -37,6 +37,53 @@ class ArticleService {
     }
   }
 
+  //* Get single article
+  async getArticleService(req, res) {
+    let id = req.params.articleId;
+    let result;
+    let statusCode = "200";
+    try {
+      result = await articleRepository.getArticle(id);
+      if (result !== null) {
+        return res.status(statusCode).json({ result: result });
+      } else {
+        statusCode = "404";
+        return res.status(statusCode).json({ result: "No article found." });
+      }
+    } catch (error) {
+      if (error) {
+        console.log(`ArticleService.js error: ${error}`);
+        result = error;
+        statusCode = "500";
+        return res.status(statusCode).json({ result: result });
+      }
+    }
+  }
+
+  //* Get recent articles
+  async getRecentArticlesService(req, res) {
+    let result;
+    let statusCode = "200";
+    try {
+      result = await articleRepository.getRecentArticles();
+      if (result !== null) {
+        return res.status(statusCode).json({ result: result });
+      } else {
+        statusCode = "404";
+        return res
+          .status(statusCode)
+          .json({ result: "There was some problem" });
+      }
+    } catch (error) {
+      if (error) {
+        console.log(`ArticleRepository.js error: ${error}`);
+        statusCode = "500";
+        result = error;
+        return res.status(statusCode).json({ result: result });
+      }
+    }
+  }
+
   //* Post article service
   async postArticleService(req, res) {
     let result;
